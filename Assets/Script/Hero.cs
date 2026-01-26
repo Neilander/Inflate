@@ -1,125 +1,281 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Hero : MonoBehaviour
 {
-    public float speed;
-    public float landAcceleration;
-    public float jumpSpeed;
-    public float jumpAcceleration;
-    public float gravity1;
-    public float gravity2;
-    public float gravity3;
-    public float maxFallingSpeed;
+    public HitBox hitBoxeUp;
+    public HitBox hitBoxeDown;
+    public HitBox hitBoxeLeft;
+    public HitBox hitBoxeRight;
 
-    public static Collider2D touched;
+    private float jumpPreTypeTime;
 
     private Rigidbody2D rigidBody;
+    private Collider2D land;
+    private InflateObject landConponent;
     private bool onLand;
-    private float jumpPreInput;
-    private Vector2 velocityValue;
-    public bool paused;
+    private Vector2 velocity;
+    private float speed = 8f;
+    private float landAceleration = 100f;
+    private float airAceleration = 30f;
+    private float jumpSpeed = 12f;
+    private float gravity1 = 35f;
+    private float gravity2 = 25f;
+    private float gravity3 = 45f;
+
+    private bool pressure;
+    private RaycastHit2D barrier;
+    private InflateObject barrierComponent;
+    private float distance;
+
+    private Vector2 memoryVelocity;
+    private bool paused;
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        onLand = false;
+        memoryVelocity = new Vector2(0, 0);
         paused = false;
+        rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody.velocity = new Vector2(0, 0);
     }
 
     void Update()
     {
-        ManageInput();
+        if (!paused)
+        {
+            if (MyInput.jump)
+                jumpPreTypeTime = 0.2f;
+            if (jumpPreTypeTime > 0 && onLand)
+            {
+                velocity = rigidBody.velocity;
+                velocity.y = jumpSpeed;
+                rigidBody.velocity = velocity;
+                jumpPreTypeTime = 0;
+            }
+            if (jumpPreTypeTime > 0)
+                jumpPreTypeTime -= Time.deltaTime;
+        }
     }
 
     void FixedUpdate()
     {
-        if (!paused && !MyInput.paused)
+        if (!paused && !GameManager.paused)
         {
-            TestOnLand();
-            Move();
+            CheckOnLand();
+            CheckPressure();
+            if (pressure)
+                Damage();
+            if (onLand)
+            {
+                HorizontalMove(MyInput.x * speed, landAceleration);
+            }
+            else if (rigidBody.velocity.x * MyInput.x >= 0)
+            {
+                HorizontalMove(MyInput.x * speed, airAceleration);
+                VerticalMove();
+            }
+            else
+            {
+                HorizontalMove(MyInput.x * speed, 2 * airAceleration);
+                VerticalMove();
+            }
         }
-        if (!paused && MyInput.paused)
+        else if (!paused && GameManager.paused)
         {
-            Pause();
+            memoryVelocity = rigidBody.velocity;
+            rigidBody.velocity = new Vector2(0, 0);
+            paused = true;
         }
-        if (paused && !MyInput.paused)
+        else if (paused && !GameManager.paused)
         {
-            NotPause();
-        }
-    }
-
-
-    private void TestOnLand()
-    {
-        touched = Physics2D.OverlapBox(transform.position, new Vector2(0.2f, 0.02f), 0, 1 << 7);
-        onLand = touched != null;
-    }
-
-    private void ManageInput()
-    {
-        if (MyInput.jump)
-            jumpPreInput = 0.15f;
-        if (jumpPreInput > 0 && !onLand)
-        {
-            jumpPreInput -= Time.deltaTime;
-        }
-        else if(jumpPreInput > 0 && onLand)
-        {
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x , jumpSpeed);
-            jumpPreInput = 0;
+            rigidBody.velocity = memoryVelocity;
+            paused = false;
         }
     }
 
-    private void Move()
+    private void CheckOnLand()
     {
+        land = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(0.8f, 0.02f), 0, MyLayerMask.Up);
+        onLand = land != null;
         if (onLand)
         {
-            HorizontalMove(speed * MyInput.x, landAcceleration);
-        }
-        else
-        {
-            HorizontalMove(speed * MyInput.x, jumpAcceleration);
-            if(rigidBody.velocity.y > 3)
-                rigidBody.velocity = rigidBody.velocity - new Vector2(0, gravity1*Time.fixedDeltaTime);
-            else if (rigidBody.velocity.y > -3)
-                rigidBody.velocity = rigidBody.velocity - new Vector2(0, gravity2 * Time.fixedDeltaTime);
-            else if (rigidBody.velocity.y > - maxFallingSpeed)
-                rigidBody.velocity = rigidBody.velocity - new Vector2(0, gravity3 * Time.fixedDeltaTime);
+            landConponent = land.transform.parent.GetComponent<InflateObject>();
+            if (landConponent != null)
+                landConponent.heroMessage = true;
         }
     }
 
-    public void HorizontalMove(float speed, float acceleration)
+    private void CheckPressure()
     {
-        if (rigidBody.velocity.x > speed)
+        hitBoxeUp.CheckPressure();
+        hitBoxeDown.CheckPressure();
+        hitBoxeLeft.CheckPressure();
+        hitBoxeRight.CheckPressure();
+        pressure = (hitBoxeUp.hit && hitBoxeDown.hit) || (hitBoxeLeft.hit && hitBoxeRight.hit);
+    }
+
+    private void HorizontalMove(float speed, float acceleration)
+    {
+        distance = 2f;
+        velocity = rigidBody.velocity;
+        if (velocity.x > 0 || (velocity.x == 0 && MyInput.x > 0))
         {
-            rigidBody.velocity = rigidBody.velocity - new Vector2(acceleration * Time.fixedDeltaTime, 0);
-            if (rigidBody.velocity.x < speed)
+            barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), new Vector2(1, 0), 2f, MyLayerMask.Left);
+            if (barrier)
             {
-                rigidBody.velocity = new Vector2(speed, rigidBody.velocity.y);
+                barrierComponent = barrier.transform.GetComponent<InflateObject>();
+                if (barrierComponent != null)
+                {
+                    if (!barrierComponent.canPushRight)
+                        distance = Mathf.Min(barrier.distance, distance);
+                }
+            }
+            barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(1, 0), 2f, MyLayerMask.Left);
+            if (barrier)
+            {
+                barrierComponent = barrier.transform.GetComponent<InflateObject>();
+                if (barrierComponent != null)
+                {
+                    if (!barrierComponent.canPushRight)
+                        distance = Mathf.Min(barrier.distance, distance);
+                }
+            }
+            if (distance < 0.05f)
+            {
+                velocity.x = 0;
+            }
+            else if (distance < velocity.x * Time.fixedDeltaTime)
+            {
+                transform.position = transform.position + new Vector3(distance - 0.05f, 0, 0);
+                velocity.x = 0;
+            }
+            else
+            {
+                velocity.x = Mathf.MoveTowards(velocity.x, speed, acceleration * Time.fixedDeltaTime);
             }
         }
-        else if (rigidBody.velocity.x < speed)
+        else if (velocity.x < 0 || (velocity.x == 0 && MyInput.x < 0))
         {
-            rigidBody.velocity = rigidBody.velocity + new Vector2(acceleration * Time.fixedDeltaTime, 0);
-            if (rigidBody.velocity.x > speed)
+            barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), new Vector2(-1, 0), 2f, MyLayerMask.Right);
+            if (barrier)
             {
-                rigidBody.velocity = new Vector2(speed, rigidBody.velocity.y);
+                barrierComponent = barrier.transform.GetComponent<InflateObject>();
+                if (barrierComponent != null)
+                {
+                    if (!barrierComponent.canPushLeft)
+                        distance = Mathf.Min(barrier.distance, distance);
+                }
+            }
+            barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(-1, 0), 2f, MyLayerMask.Right);
+            if (barrier)
+            {
+                barrierComponent = barrier.transform.GetComponent<InflateObject>();
+                if (barrierComponent != null)
+                {
+                    if (!barrierComponent.canPushLeft)
+                        distance = Mathf.Min(barrier.distance, distance);
+                }
+            }
+            if (distance < 0.05f)
+            {
+                velocity.x = 0;
+            }
+            else if (distance < velocity.x * Time.fixedDeltaTime)
+            {
+                transform.position = transform.position - new Vector3(distance - 0.05f, 0, 0);
+                velocity.x = 0;
+            }
+            else
+            {
+                velocity.x = Mathf.MoveTowards(velocity.x, speed, acceleration * Time.fixedDeltaTime);
+            }
+        }
+        rigidBody.velocity = velocity;
+    }
+
+    private void VerticalMove()
+    {
+        if (!onLand)
+        {
+            distance = 2f;
+            if (rigidBody.velocity.y > 0)
+            {
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                if (distance < 0.05f)
+                {
+                    velocity = rigidBody.velocity;
+                    velocity.y = 0;
+                    rigidBody.velocity = velocity;
+                }
+                else if (distance > rigidBody.velocity.y * Time.fixedDeltaTime)
+                {
+                    velocity = rigidBody.velocity;
+                    if (velocity.y > 4f)
+                        velocity.y -= gravity1 * Time.fixedDeltaTime;
+                    else if (velocity.y > -4f)
+                        velocity.y -= gravity2 * Time.fixedDeltaTime;
+                    else if (velocity.y > -12f)
+                        velocity.y -= gravity3 * Time.fixedDeltaTime;
+                    rigidBody.velocity = velocity;
+                }
+                else
+                {
+                    transform.position = transform.position + new Vector3(0, distance - 0.05f, 0);
+                    velocity = rigidBody.velocity;
+                    velocity.y = 0;
+                    rigidBody.velocity = velocity;
+                }
+            }
+            else
+            {
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Up);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Up);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                if (distance > -rigidBody.velocity.y * Time.fixedDeltaTime)
+                {
+                    velocity = rigidBody.velocity;
+                    if (velocity.y > 4f)
+                        velocity.y -= gravity1 * Time.fixedDeltaTime;
+                    else if (velocity.y > -4f)
+                        velocity.y -= gravity2 * Time.fixedDeltaTime;
+                    else if (velocity.y > -12f)
+                        velocity.y -= gravity3 * Time.fixedDeltaTime;
+                    rigidBody.velocity = velocity;
+                }
+                else
+                {
+                    transform.position = transform.position - new Vector3(0, distance, 0);
+                    velocity = rigidBody.velocity;
+                    velocity.y = 0;
+                    rigidBody.velocity = velocity;
+                }
             }
         }
     }
 
-    public void Pause()
+    private void Damage()
     {
-        velocityValue = rigidBody.velocity;
-        rigidBody.velocity = new Vector2(0, 0);
-        paused = true;
-    }
-
-    public void NotPause()
-    {
-        rigidBody.velocity = velocityValue;
-        paused = false;
+        Destroy(gameObject);
     }
 }

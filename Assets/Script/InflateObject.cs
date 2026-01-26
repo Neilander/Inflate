@@ -1,117 +1,215 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
+using UnityEngine.Android;
+
+public enum InflateDirection { X, Y, XY }
 
 public class InflateObject : MonoBehaviour
 {
     public bool inflating;
+    public List<HitBox> hitBoxes;
     public float inflateSpeed;
-    public List<Box> boxes;
-
-    public bool touched
-    {
-        get
-        {
-            if (Hero.touched == null)
-                return false;
-            else
-                return Hero.touched.transform.parent == transform;
-        }
-    }
-
-    public float FIXINGFLOAT;
+    public InflateDirection inflateDirection;
+    public bool positionFixed;
+    public bool breakable;
+    public bool pushable;
+    public bool inflateForever;
 
     private Rigidbody2D rigidBody;
-    private static float maxFallingSpeed = 15f;
-    private static float gravity = 30f;
-    private float needFeedBack;
-    private bool canInflate;
-    private float scale;
-    private float maxScale;
-    private Vector2 velocityValue;
+    private float gravity = 50f;
+    private float maxFallingSpeed = 12f;
+
+    private bool pressure;
+    private float downForcePosition;
+    private float upForcePosition;
+    private float leftForcePosition;
+    private float rightForcePosition;
+
+    private Vector2 memoryVelocity;
     private bool paused;
 
+    public bool canPushRight;
+    public bool canPushLeft;
+    public bool heroMessage;
+    public bool glueMessage;
 
     void Start()
     {
-        scale = transform.localScale.x;
-        rigidBody = GetComponent<Rigidbody2D>();
-        needFeedBack = 0.1f;
+        if (!positionFixed)
+            rigidBody = GetComponent<Rigidbody2D>();
+        if (!pushable)
+        {
+            canPushLeft = false;
+            canPushRight = false;
+        }
     }
 
     void FixedUpdate()
     {
-        if (!paused && !MyInput.paused)
+        if (!paused && !GameManager.paused)
         {
-            Fall();
-            Inflate();
-            Test();
-            FeedBack();
+            if (!positionFixed)
+                Fall();
+            if(inflateSpeed > 0 || breakable)
+                CheckPressure();
+            CheckPush();
+            if(pressure && breakable)
+            {
+                Damage();
+            }
+            ManagePlayerMessage();
+            ManageGlueMessage();
+            if (inflating)
+            {
+                Inflate();
+            }
         }
-        if (!paused && MyInput.paused)
+        else if (!paused && GameManager.paused)
         {
-            Pause();
+            if (!positionFixed)
+            {
+                memoryVelocity = rigidBody.velocity;
+                rigidBody.velocity = new Vector2(0, 0);
+            }
+            paused = true;
         }
-        if (paused && !MyInput.paused)
+        else if (paused && !GameManager.paused)
         {
-            NotPause();
+            if (!positionFixed)
+            {
+                rigidBody.velocity = memoryVelocity;
+            }
+            paused = false;
         }
     }
 
     private void Fall()
     {
-        if (rigidBody.velocity.y > - maxFallingSpeed)
+        if (rigidBody.velocity.y + maxFallingSpeed > gravity * Time.fixedDeltaTime)
         {
-            rigidBody.velocity = rigidBody.velocity - new Vector2(0, gravity * Time.fixedDeltaTime);
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y - gravity * Time.fixedDeltaTime);
+        }
+        else if (rigidBody.velocity.y + maxFallingSpeed > 0)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, -maxFallingSpeed);
         }
     }
 
-    public void Inflate()
+    private void ManagePlayerMessage()
     {
-        inflating = touched;
-        if (inflating)
+        if (heroMessage)
         {
-            scale += inflateSpeed * Time.fixedDeltaTime;
-            transform.localScale = new Vector3(scale, scale, scale);
-            if (scale > maxScale)
-                maxScale = scale;
-            needFeedBack = 0.1f;
+            inflating = true;
+            heroMessage = false;
+        }
+        else
+        {
+            if (!inflateForever)
+                inflating = false;
         }
     }
 
-    public void Test()
+    private void ManageGlueMessage()
     {
-        canInflate = true;
-        foreach (Box box in boxes)
+        if (glueMessage)
         {
-            canInflate &= box.TestCanInflate();
+            inflating = false;
+            glueMessage = false;
         }
     }
 
-    public void FeedBack()
+    private void Inflate()
     {
-        if (needFeedBack > 0)
+        if (!pressure)
         {
-            needFeedBack -= Time.fixedDeltaTime;
-            if (!canInflate && scale >= (1 - FIXINGFLOAT) * maxScale)
+            if (inflateDirection == InflateDirection.X)
+                transform.localScale = new Vector3(transform.localScale.x + inflateSpeed * Time.fixedDeltaTime, transform.localScale.y, transform.localScale.z);
+            if (inflateDirection == InflateDirection.Y)
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + inflateSpeed * Time.fixedDeltaTime, transform.localScale.z);
+            if (inflateDirection == InflateDirection.XY)
+                transform.localScale = new Vector3(transform.localScale.x + inflateSpeed * Time.fixedDeltaTime, transform.localScale.y + inflateSpeed * Time.fixedDeltaTime, transform.localScale.z);
+            foreach(HitBox hitbox in hitBoxes)
             {
-                scale -= inflateSpeed * Time.fixedDeltaTime;
-                transform.localScale = new Vector3(scale, scale, scale);
+                hitbox.Inflate();
             }
         }
     }
 
-    public void Pause()
+    private void CheckPush()
     {
-        velocityValue = rigidBody.velocity;
-        rigidBody.velocity = new Vector2(0, 0);
-        paused = true;
+        if (pushable)
+        {
+            canPushLeft = true;
+            canPushRight = true;
+            foreach (HitBox hitBox in hitBoxes)
+            {
+                if (hitBox.direction == Direction.Left)
+                {
+                    hitBox.CheckPush();
+                    canPushLeft &= hitBox.canPush;
+                }
+                else if (hitBox.direction == Direction.Right)
+                {
+                    hitBox.CheckPush();
+                    canPushRight &= hitBox.canPush;
+                }
+
+            }
+        }
     }
 
-    public void NotPause()
+    private void CheckPressure()
     {
-        rigidBody.velocity = velocityValue;
-        paused = false;
+        leftForcePosition = 1024;
+        rightForcePosition = -1024;
+        upForcePosition = -1024;
+        downForcePosition = 1024;
+        foreach (HitBox hitbox in hitBoxes)
+        {
+            hitbox.CheckPressure();
+            if (hitbox.hit)
+            {
+                if (hitbox.direction == Direction.Up)
+                {
+                    upForcePosition = Mathf.Max(hitbox.edgePosition, upForcePosition);
+                }
+                if (hitbox.direction == Direction.Down)
+                {
+                    downForcePosition = Mathf.Min(hitbox.edgePosition, downForcePosition);
+                }
+                if (hitbox.direction == Direction.Left)
+                {
+                    leftForcePosition = Mathf.Min(hitbox.edgePosition, leftForcePosition);
+                }
+                if (hitbox.direction == Direction.Right)
+                {
+                    rightForcePosition = Mathf.Max(hitbox.edgePosition, rightForcePosition);
+                }
+            }
+        }
+        if (positionFixed)
+        {
+            if (inflateDirection == InflateDirection.X)
+                pressure = leftForcePosition < 0 || rightForcePosition > 0;
+            else if (inflateDirection == InflateDirection.Y)
+                pressure = downForcePosition < 0 || upForcePosition > 0;
+            else if (inflateDirection == InflateDirection.XY)
+                pressure = leftForcePosition < 0 || rightForcePosition > 0 || downForcePosition < 0 || upForcePosition > 0;
+        }
+        else
+        {
+            if (inflateDirection == InflateDirection.X)
+                pressure = leftForcePosition < rightForcePosition;
+            else if (inflateDirection == InflateDirection.Y)
+                pressure = upForcePosition > downForcePosition;
+            else if (inflateDirection == InflateDirection.XY)
+                pressure = leftForcePosition < rightForcePosition || upForcePosition > downForcePosition;
+        }
+    }
+
+    private void Damage()
+    {
+        Destroy(gameObject);
     }
 }

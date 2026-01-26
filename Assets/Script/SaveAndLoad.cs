@@ -26,8 +26,8 @@ public struct GameData
 
 public class SaveAndLoad
 {
-    public static GameData gameData = new GameData(KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.UpArrow, KeyCode.Escape, KeyCode.R, 0);
-    public void Save(int location)
+    public static GameData gameData = new GameData(KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.Escape, KeyCode.R, 0);
+    public static void Save(int location)
     {
         GameData savedGameData = gameData;
         BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -37,7 +37,7 @@ public class SaveAndLoad
         fileStream.Close();
     }
 
-    public void Load(int location)
+    public static void Load(int location)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         string filePath = Application.persistentDataPath + "/mygamedata" + location + ".db";
@@ -54,13 +54,13 @@ public class SaveAndLoad
         }
     }
 
-    public bool HaveGameData(int location)
+    public static bool HaveGameData(int location)
     {
         string filePath = Application.persistentDataPath + "/mygamedata" + location + ".db";
         return File.Exists(filePath);
     }
 
-    public void DeleteGameData(int location)
+    public static void DeleteGameData(int location)
     {
         string filePath = Application.persistentDataPath + "/mygamedata" + location + ".db";
         if (File.Exists(filePath))

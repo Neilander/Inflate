@@ -7,17 +7,16 @@ public struct MyInput
 {
     public static int x;
     public static bool jump;
-    public static bool paused;
 }
 
 public class InputManager : MonoBehaviour
 {
+    public GameManager gameManager;
     private KeyCode left;
     private KeyCode right;
     private KeyCode jump;
     private KeyCode quit;
     private KeyCode restart;
-    private string sceneName;
 
     void Start()
     {
@@ -26,13 +25,11 @@ public class InputManager : MonoBehaviour
         jump = SaveAndLoad.gameData.jump;
         quit = SaveAndLoad.gameData.quit;
         restart = SaveAndLoad.gameData.restart;
-        sceneName = SceneManager.GetActiveScene().name;
-        MyInput.paused = false;
     }
 
     void Update()
     {
-        if (!MyInput.paused)
+        if (!GameManager.paused)
         {
             if (Input.GetKeyDown(left))
                 MyInput.x = -1;
@@ -54,12 +51,11 @@ public class InputManager : MonoBehaviour
             }
             MyInput.jump = Input.GetKeyDown(jump);
             if (Input.GetKeyDown(quit))
-                MyInput.paused = true;
+                GameManager.paused = true;
             if (Input.GetKeyDown(restart))
-                SceneManager.LoadScene(sceneName);
+                SceneManager.LoadScene(gameManager.sceneName);
         }
-        if (Input.GetKeyDown(KeyCode.Q))
-            MyInput.paused = false;
-
+        else if (Input.GetKeyDown(quit))
+            GameManager.paused = false;
     }
 }
