@@ -25,6 +25,7 @@ public class HitBox : MonoBehaviour
 {
     public bool weak;
     public bool hit;
+    public bool touch;
     public bool canPush;
     public Direction direction;
     public float edgePosition;
@@ -73,7 +74,7 @@ public class HitBox : MonoBehaviour
 
     public void Inflate()
     {
-        if(direction == Direction.Left || direction == Direction.Right)
+        if (direction == Direction.Left || direction == Direction.Right)
         {
             transform.localScale = new Vector3(depth / transform.parent.localScale.x, transform.localScale.y, 1);
         }
@@ -85,6 +86,15 @@ public class HitBox : MonoBehaviour
 
     public void CheckPressure()
     {
+        if (direction == Direction.Left)
+            hitCollider = Physics2D.OverlapBox(new Vector2(transform.position.x + 0.2f, transform.position.y), new Vector2(0.4f, transform.lossyScale.y), 0, targetLayerMask);
+        else if (direction == Direction.Right)
+            hitCollider = Physics2D.OverlapBox(new Vector2(transform.position.x - 0.2f, transform.position.y), new Vector2(0.4f, transform.lossyScale.y), 0, targetLayerMask);
+        else if (direction == Direction.Up)
+            hitCollider = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - 0.2f), new Vector2(transform.lossyScale.x, 0.4f), 0, targetLayerMask);
+        else if (direction == Direction.Down)
+            hitCollider = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y + 0.2f), new Vector2(transform.lossyScale.x, 0.4f), 0, targetLayerMask);
+        touch = hitCollider != null;
         if (direction == Direction.Left)
             hitCollider = Physics2D.OverlapBox(new Vector2(transform.position.x + 0.2f, transform.position.y), new Vector2(0.4f - pressureDepth, transform.lossyScale.y - pressureDepth), 0, targetLayerMask);
         else if (direction == Direction.Right)

@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
+        SaveAndLoad.gameData.nowLevel = level + 1;
         SaveAndLoad.gameData.level = Mathf.Max(SaveAndLoad.gameData.level, level);
         SaveAndLoad.Save(0);
         SceneManager.LoadScene(nextSceneName);

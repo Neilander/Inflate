@@ -11,22 +11,24 @@ public struct GameData
     public KeyCode jump;
     public KeyCode quit;
     public KeyCode restart;
+    public int nowLevel;
     public int level;
 
-    public GameData(KeyCode leftValue, KeyCode rightValue, KeyCode jumpValue, KeyCode quitValue, KeyCode restartValue, int levelValue)
+    public GameData(KeyCode leftValue, KeyCode rightValue, KeyCode jumpValue, KeyCode quitValue, KeyCode restartValue,int nowLevelValue, int levelValue)
     {
         left = leftValue;
         right = rightValue;
         jump = jumpValue;
         quit = quitValue;
         restart = restartValue;
+        nowLevel = nowLevelValue;
         level = levelValue;
     }
 }
 
 public class SaveAndLoad
 {
-    public static GameData gameData = new GameData(KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.Escape, KeyCode.R, 0);
+    public static GameData gameData = new GameData(KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.Escape, KeyCode.R, 0, 0);
     public static void Save(int location)
     {
         GameData savedGameData = gameData;
@@ -49,7 +51,7 @@ public class SaveAndLoad
         }
         else
         {
-            gameData = new GameData(KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.UpArrow, KeyCode.Escape, KeyCode.R, 0);
+            gameData = new GameData(KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.UpArrow, KeyCode.Escape, KeyCode.R, 0, 0);
             Save(location);
         }
     }

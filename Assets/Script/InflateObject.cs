@@ -20,11 +20,17 @@ public class InflateObject : MonoBehaviour
     private float gravity = 50f;
     private float maxFallingSpeed = 12f;
 
+    private bool cannotInflate;
     private bool pressure;
+    private float pressureTime;
     private float downForcePosition;
     private float upForcePosition;
     private float leftForcePosition;
     private float rightForcePosition;
+    private float downTouchPosition;
+    private float upTouchPosition;
+    private float leftTouchPosition;
+    private float rightTouchPosition;
 
     private Vector2 memoryVelocity;
     private bool paused;
@@ -54,7 +60,7 @@ public class InflateObject : MonoBehaviour
             if(inflateSpeed > 0 || breakable)
                 CheckPressure();
             CheckPush();
-            if(pressure && breakable)
+            if(pressureTime > 0.2f && breakable)
             {
                 Damage();
             }
@@ -121,7 +127,7 @@ public class InflateObject : MonoBehaviour
 
     private void Inflate()
     {
-        if (!pressure)
+        if (!cannotInflate)
         {
             if (inflateDirection == InflateDirection.X)
                 transform.localScale = new Vector3(transform.localScale.x + inflateSpeed * Time.fixedDeltaTime, transform.localScale.y, transform.localScale.z);
@@ -147,12 +153,20 @@ public class InflateObject : MonoBehaviour
                 if (hitBox.direction == Direction.Left)
                 {
                     hitBox.CheckPush();
-                    canPushLeft &= hitBox.canPush;
+                    if (!hitBox.canPush)
+                    {
+                        rigidBody.velocity = new Vector2(0,rigidBody.velocity.y);
+                        canPushLeft = false;
+                    }
                 }
                 else if (hitBox.direction == Direction.Right)
                 {
                     hitBox.CheckPush();
-                    canPushRight &= hitBox.canPush;
+                    if (!hitBox.canPush)
+                    {
+                        rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+                        canPushRight = false;
+                    }
                 }
 
             }
@@ -165,6 +179,10 @@ public class InflateObject : MonoBehaviour
         rightForcePosition = -1024;
         upForcePosition = -1024;
         downForcePosition = 1024;
+        leftTouchPosition = 1024;
+        rightTouchPosition = -1024;
+        upTouchPosition = -1024;
+        downTouchPosition = 1024;
         foreach (HitBox hitbox in hitBoxes)
         {
             hitbox.CheckPressure();
@@ -187,25 +205,50 @@ public class InflateObject : MonoBehaviour
                     rightForcePosition = Mathf.Max(hitbox.edgePosition, rightForcePosition);
                 }
             }
+            if (hitbox.touch)
+            {
+                if (hitbox.direction == Direction.Up)
+                {
+                    upTouchPosition = Mathf.Max(hitbox.edgePosition, upForcePosition);
+                }
+                if (hitbox.direction == Direction.Down)
+                {
+                    downTouchPosition = Mathf.Min(hitbox.edgePosition, downForcePosition);
+                }
+                if (hitbox.direction == Direction.Left)
+                {
+                    leftTouchPosition = Mathf.Min(hitbox.edgePosition, leftForcePosition);
+                }
+                if (hitbox.direction == Direction.Right)
+                {
+                    rightTouchPosition = Mathf.Max(hitbox.edgePosition, rightForcePosition);
+                }
+            }
         }
         if (positionFixed)
         {
             if (inflateDirection == InflateDirection.X)
-                pressure = leftForcePosition < 0 || rightForcePosition > 0;
+                cannotInflate = leftForcePosition < 0 || rightForcePosition > 0;
             else if (inflateDirection == InflateDirection.Y)
-                pressure = downForcePosition < 0 || upForcePosition > 0;
+                cannotInflate = downForcePosition < 0 || upForcePosition > 0;
             else if (inflateDirection == InflateDirection.XY)
-                pressure = leftForcePosition < 0 || rightForcePosition > 0 || downForcePosition < 0 || upForcePosition > 0;
+                cannotInflate = leftForcePosition < 0 || rightForcePosition > 0 || downForcePosition < 0 || upForcePosition > 0;
+            pressure = leftForcePosition < 1000 || rightForcePosition > -1000 || downForcePosition < 1000 || upForcePosition > -1000;
         }
         else
         {
             if (inflateDirection == InflateDirection.X)
-                pressure = leftForcePosition < rightForcePosition;
+                cannotInflate = leftForcePosition < rightForcePosition;
             else if (inflateDirection == InflateDirection.Y)
-                pressure = upForcePosition > downForcePosition;
+                cannotInflate = upForcePosition > downForcePosition;
             else if (inflateDirection == InflateDirection.XY)
-                pressure = leftForcePosition < rightForcePosition || upForcePosition > downForcePosition;
+                cannotInflate = leftForcePosition < rightForcePosition || upForcePosition > downForcePosition;
+            pressure = (leftForcePosition < 1000 && rightTouchPosition > -1000) || (leftTouchPosition < 1000 && rightForcePosition > -1000) || (downTouchPosition < 1000 && upForcePosition > -1000) || (downForcePosition < 1000 && upTouchPosition > -1000);
         }
+        if (pressure)
+            pressureTime += Time.fixedDeltaTime;
+        else
+            pressureTime = 0;
     }
 
     private void Damage()

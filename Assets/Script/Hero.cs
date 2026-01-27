@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 
 public class Hero : MonoBehaviour
 {
+    public Transform eyes;
     public HitBox hitBoxeUp;
     public HitBox hitBoxeDown;
     public HitBox hitBoxeLeft;
@@ -28,6 +29,7 @@ public class Hero : MonoBehaviour
     private float gravity3 = 45f;
 
     private bool pressure;
+    private float pressureTime;
     private RaycastHit2D barrier;
     private InflateObject barrierComponent;
     private float distance;
@@ -66,9 +68,10 @@ public class Hero : MonoBehaviour
     {
         if (!paused && !GameManager.paused)
         {
+            ShowEyes();
             CheckOnLand();
             CheckPressure();
-            if (pressure)
+            if (pressureTime > 0.2f)
                 Damage();
             if (onLand)
             {
@@ -98,6 +101,11 @@ public class Hero : MonoBehaviour
         }
     }
 
+    private void ShowEyes()
+    {
+        eyes.localPosition = new Vector3(velocity.x * 0.01f, velocity.y * 0.01f, 0);
+    }
+
     private void CheckOnLand()
     {
         land = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(0.8f, 0.02f), 0, MyLayerMask.Up);
@@ -116,7 +124,11 @@ public class Hero : MonoBehaviour
         hitBoxeDown.CheckPressure();
         hitBoxeLeft.CheckPressure();
         hitBoxeRight.CheckPressure();
-        pressure = (hitBoxeUp.hit && hitBoxeDown.hit) || (hitBoxeLeft.hit && hitBoxeRight.hit);
+        pressure = (hitBoxeUp.hit && hitBoxeDown.touch) || (hitBoxeUp.touch && hitBoxeDown.hit) || (hitBoxeLeft.hit && hitBoxeRight.touch) || (hitBoxeLeft.touch && hitBoxeRight.hit);
+        if (pressure)
+            pressureTime += Time.fixedDeltaTime;
+        else
+            pressureTime = 0;
     }
 
     private void HorizontalMove(float speed, float acceleration)
