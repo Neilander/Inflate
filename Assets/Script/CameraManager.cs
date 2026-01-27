@@ -24,7 +24,7 @@ public class CameraManager : MonoBehaviour
         position = transform.position;
         if (right - left <= 10f * width)
             position.x = (left + right) / 2;
-        else
+        else if(hero != null)
         {
             if (position.x - hero.position.x > 2f)
                 position.x = hero.position.x + 2f;
@@ -37,7 +37,7 @@ public class CameraManager : MonoBehaviour
         }
         if (up - down <= 10f)
             position.y = (up + down) / 2;
-        else
+        else if (hero != null)
         {
             if (position.y - hero.position.y > 3f)
                 position.y = hero.position.y + 3f;
