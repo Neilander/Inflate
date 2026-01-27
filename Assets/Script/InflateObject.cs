@@ -35,6 +35,8 @@ public class InflateObject : MonoBehaviour
     private Vector2 memoryVelocity;
     private bool paused;
 
+    public Transform fixedPosition;
+    private bool hasFixedPosition;
     public bool canPushRight;
     public bool canPushLeft;
     public bool heroMessage;
@@ -49,6 +51,11 @@ public class InflateObject : MonoBehaviour
             canPushLeft = false;
             canPushRight = false;
         }
+        hasFixedPosition = fixedPosition != null;
+        foreach (HitBox hitbox in hitBoxes)
+        {
+            hitbox.Inflate();
+        }
     }
 
     void FixedUpdate()
@@ -57,6 +64,8 @@ public class InflateObject : MonoBehaviour
         {
             if (!positionFixed)
                 Fall();
+            else if (hasFixedPosition)
+                transform.position = fixedPosition.position;
             if(inflateSpeed > 0 || breakable)
                 CheckPressure();
             CheckPush();

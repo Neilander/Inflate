@@ -12,9 +12,9 @@ public class Glue : MonoBehaviour
         gluedObjects = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y), new Vector2(transform.lossyScale.x + 0.05f, transform.lossyScale.y + 0.05f), 0);
         foreach(Collider2D gluedObject in gluedObjects)
         {
-            if (gluedObject.transform.parent != transform.parent)
+            if (gluedObject.transform.parent.parent != transform.parent)
             {
-                gluedConponent = gluedObject.transform.parent.GetComponent<InflateObject>();
+                gluedConponent = gluedObject.transform.parent.parent.GetComponent<InflateObject>();
                 if (gluedConponent != null)
                     gluedConponent.glueMessage = true;
             }

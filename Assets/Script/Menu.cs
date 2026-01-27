@@ -7,7 +7,6 @@ public class Menu : MonoBehaviour
 {
     private Color32 notSelected = new Color32(255, 255, 255, 255);
     private Color32 Selected = new Color32(255, 255, 100, 255);
-    public List<string> sceneNames;
     public Camera myCamera;
     public Transform startGame;
     public SpriteRenderer startGameSpriteRenderer;
@@ -73,10 +72,10 @@ public class Menu : MonoBehaviour
 
     private void StartGame()
     {
-        if(sceneNames.Count >= SaveAndLoad.gameData.nowLevel - 1)
-            SceneManager.LoadScene(sceneNames[SaveAndLoad.gameData.nowLevel]);
+        if(LevelManager.sceneNames.Count >= SaveAndLoad.gameData.nowLevel + 1)
+            SceneManager.LoadScene(LevelManager.sceneNames[SaveAndLoad.gameData.nowLevel]);
         else
-            SceneManager.LoadScene(sceneNames[0]);
+            SceneManager.LoadScene(LevelManager.sceneNames[0]);
     }
 
     private void SelectLevel()

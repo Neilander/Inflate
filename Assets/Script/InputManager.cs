@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(quit))
                 GameManager.paused = true;
             if (Input.GetKeyDown(restart))
-                SceneManager.LoadScene(gameManager.sceneName);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else if (Input.GetKeyDown(quit))
             GameManager.paused = false;

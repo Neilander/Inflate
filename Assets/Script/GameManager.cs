@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public Transform hero;
     public Transform flag;
+    public float winAreaWidth;
+    public float winAreaHeight;
     public static bool paused;
     public int level;
-    public string sceneName;
-    public string nextSceneName;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         {
             Warn();
         }
-        else if (hero.position.x - flag.position.x < 0.5f && hero.position.x - flag.position.x > -0.5f && hero.position.y - flag.position.y < 0.55f && hero.position.y - flag.position.y > 0.45f)
+        else if (hero.position.x - flag.position.x < winAreaWidth / 2f && hero.position.x - flag.position.x > - winAreaWidth / 2f && hero.position.y - flag.position.y < 0.5f + winAreaWidth / 2f && hero.position.y - flag.position.y > 0.5f - winAreaWidth / 2f)
         {
             Win();
         }
@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
         SaveAndLoad.gameData.nowLevel = level + 1;
         SaveAndLoad.gameData.level = Mathf.Max(SaveAndLoad.gameData.level, level);
         SaveAndLoad.Save(0);
-        SceneManager.LoadScene(nextSceneName);
+        if (LevelManager.sceneNames.Count >= level + 2)
+            SceneManager.LoadScene(LevelManager.sceneNames[level + 1]);
+        else
+            SceneManager.LoadScene("GameOverScene");
     }
 }
