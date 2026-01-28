@@ -25,6 +25,13 @@ public class Menu : MonoBehaviour
     void Update()
     {
         mousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Input.GetKeyDown(SaveAndLoad.gameData.quit))
+        {
+            Quit();
+            return;
+        }
+
         if (Touch(mousePosition, startGame))
         {
             startGame.localScale = new Vector3(1, 1, 1);

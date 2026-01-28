@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -19,6 +20,7 @@ public class Hero : MonoBehaviour
     private Collider2D land;
     private InflateObject landConponent;
     private bool onLand;
+    private float wolfJumpTime;
     private Vector2 velocity;
     private float speed = 8f;
     private float landAceleration = 100f;
@@ -67,7 +69,7 @@ public class Hero : MonoBehaviour
             if (onLand)
             {
                 HorizontalMove(MyInput.x * speed, landAceleration);
-                VerticalMoveLand();
+                VerticalMove();
             }
             else if (rigidBody.velocity.x * MyInput.x >= 0)
             {
@@ -104,6 +106,7 @@ public class Hero : MonoBehaviour
         onLand = land != null;
         if (onLand)
         {
+            wolfJumpTime = 0.15f;
             landConponent = land.transform.parent.parent.GetComponent<InflateObject>();
             if (landConponent != null)
                 landConponent.heroMessage = true;
@@ -222,11 +225,11 @@ public class Hero : MonoBehaviour
         rigidBody.velocity = velocity;
     }
 
-    private void VerticalMoveLand()
+    private void VerticalMove()
     {
-        if (jumpPreTypeTime > 0)
+        velocity = rigidBody.velocity;
+        if (wolfJumpTime > 0 && jumpPreTypeTime > 0)
         {
-            velocity = rigidBody.velocity;
             distance = 2f;
             barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
             if (barrier)
@@ -252,72 +255,72 @@ public class Hero : MonoBehaviour
                 velocity.y = 0;
             }
             jumpPreTypeTime = 0;
-            rigidBody.velocity = velocity;
-        }
-    }
-
-    private void VerticalMove()
-    {
-        velocity = rigidBody.velocity;
-        if (jumpPreTypeTime > 0)
-            jumpPreTypeTime -= Time.fixedDeltaTime;
-        distance = 2f;
-        if (velocity.y > 0)
-        {
-            barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
-            if (barrier)
-            {
-                distance = Mathf.Min(barrier.distance, distance);
-            }
-            barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
-            if (barrier)
-            {
-                distance = Mathf.Min(barrier.distance, distance);
-            }
-            if (distance < 0.01f)
-            {
-                velocity.y = 0;
-            }
-            else if (distance > rigidBody.velocity.y * Time.fixedDeltaTime)
-            {
-                if (velocity.y > 4f)
-                    velocity.y -= gravity1 * Time.fixedDeltaTime;
-                else if (velocity.y > -4f)
-                    velocity.y -= gravity2 * Time.fixedDeltaTime;
-                else if (velocity.y > -12f)
-                    velocity.y -= gravity3 * Time.fixedDeltaTime;
-            }
-            else
-            {
-                transform.position = transform.position + new Vector3(0, distance - 0.01f, 0);
-                velocity.y = 0;
-            }
+            wolfJumpTime = 0;
         }
         else
         {
-            barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(0, -1), 2f, MyLayerMask.Up);
-            if (barrier)
+            if (wolfJumpTime > 0)
+                wolfJumpTime -= Time.fixedDeltaTime;
+            if (jumpPreTypeTime > 0)
+                jumpPreTypeTime -= Time.fixedDeltaTime;
+            distance = 2f;
+            if (velocity.y > 0)
             {
-                distance = Mathf.Min(barrier.distance, distance);
-            }
-            barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(0, -1), 2f, MyLayerMask.Up);
-            if (barrier)
-            {
-                distance = Mathf.Min(barrier.distance, distance);
-            }
-            if (distance > -rigidBody.velocity.y * Time.fixedDeltaTime)
-            {
-                if (velocity.y > 4f)
-                    velocity.y -= gravity1 * Time.fixedDeltaTime;
-                else if (velocity.y > -4f)
-                    velocity.y -= gravity2 * Time.fixedDeltaTime;
-                else if (velocity.y > -12f)
-                    velocity.y -= gravity3 * Time.fixedDeltaTime;
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), new Vector2(0, 1), 2f, MyLayerMask.Down);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                if (distance < 0.01f)
+                {
+                    velocity.y = 0;
+                }
+                else if (distance > rigidBody.velocity.y * Time.fixedDeltaTime)
+                {
+                    if (velocity.y > 4f)
+                        velocity.y -= gravity1 * Time.fixedDeltaTime;
+                    else if (velocity.y > -4f)
+                        velocity.y -= gravity2 * Time.fixedDeltaTime;
+                    else if (velocity.y > -12f)
+                        velocity.y -= gravity3 * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    transform.position = transform.position + new Vector3(0, distance - 0.01f, 0);
+                    velocity.y = 0;
+                }
             }
             else
             {
-                transform.position = transform.position - new Vector3(0, distance, 0);
-                velocity.y = 0;
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(0, -1), 2f, MyLayerMask.Up);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(0, -1), 2f, MyLayerMask.Up);
+                if (barrier)
+                {
+                    distance = Mathf.Min(barrier.distance, distance);
+                }
+                if (distance > -rigidBody.velocity.y * Time.fixedDeltaTime)
+                {
+                    if (velocity.y > 4f)
+                        velocity.y -= gravity1 * Time.fixedDeltaTime;
+                    else if (velocity.y > -4f)
+                        velocity.y -= gravity2 * Time.fixedDeltaTime;
+                    else if (velocity.y > -12f)
+                        velocity.y -= gravity3 * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    transform.position = transform.position - new Vector3(0, distance, 0);
+                    velocity.y = 0;
+                }
             }
         }
         rigidBody.velocity = velocity;
