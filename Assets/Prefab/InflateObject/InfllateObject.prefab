@@ -51,6 +51,13 @@ MonoBehaviour:
   inflateDirection: 2
   positionFixed: 0
   breakable: 0
+  pushable: 0
+  inflateForever: 0
+  fixedPosition: {fileID: 0}
+  canPushRight: 0
+  canPushLeft: 0
+  heroMessage: 0
+  glueMessage: 0
 --- !u!50 &7282281327361862717
 Rigidbody2D:
   serializedVersion: 4
