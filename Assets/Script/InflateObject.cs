@@ -47,6 +47,15 @@ public class InflateObject : MonoBehaviour
     private bool hasSymbol;
     private float symbolScale;
 
+    
+    public void Refresh()
+    {
+        hitBoxes.RemoveAll(h => h == null);
+
+        foreach (var t in GetComponentsInChildren<Transform>(true))
+            if (t.name.Contains("HitBox") && t.TryGetComponent(out HitBox hb) && !hitBoxes.Contains(hb))
+                hitBoxes.Add(hb);
+    }
     void Start()
     {
         if (symbol == null)
@@ -80,6 +89,7 @@ public class InflateObject : MonoBehaviour
             canPushRight = false;
         }
         hasFixedPosition = fixedPosition != null;
+        Refresh();
         foreach (HitBox hitbox in hitBoxes)
         {
             hitbox.Inflate();
