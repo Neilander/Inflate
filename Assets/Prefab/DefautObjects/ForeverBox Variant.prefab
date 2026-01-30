@@ -246,6 +246,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5702687878403122428, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5702687878403122428, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5702687878403122428, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5702687878403122428, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7849851564902042013, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
       propertyPath: m_Name
       value: ForeverBox Variant

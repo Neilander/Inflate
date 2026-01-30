@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3398566ec1b8bd846954c41bb4eb2b6a, type: 3}
+  m_Name: Color Manager
+  m_EditorClassIdentifier: 
+  colorGroups:
+  - mainColor: {r: 0.9725491, g: 0.27058825, b: 0.5529412, a: 1}
+    edgeColor: {r: 0.854902, g: 0.10980393, b: 0.78823537, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.012032986, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.08627451, g: 0.87843144, b: 0.9725491, a: 1}
+    edgeColor: {r: 0.050980397, g: 0.58431375, b: 0.7607844, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.64705884, g: 0.9490197, b: 0.25882354, a: 1}
+    edgeColor: {r: 0.50980395, g: 0.7843138, b: 0.14901961, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.6156863, g: 0.23137257, b: 0.8235295, a: 1}
+    edgeColor: {r: 0.4901961, g: 0.08627451, b: 0.7058824, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.7411765, g: 0.7411765, b: 0.7411765, a: 1}
+    edgeColor: {r: 0.8196079, g: 0.8196079, b: 0.8196079, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}

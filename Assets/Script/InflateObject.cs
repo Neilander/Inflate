@@ -7,14 +7,13 @@ public enum InflateDirection {X, Y, XY, O}
 
 public class InflateObject : MonoBehaviour
 {
+    public int colorNumber;
     public bool inflating;
     public List<HitBox> hitBoxes;
     public float inflateSpeed;
     public InflateDirection inflateDirection;
-    public Color edgeColor;
-    public Color inflateEdgeColor;
-    public Color inflatingColor;
     public bool positionFixed;
+    public bool glue;
     public bool breakable;
     public bool pushable;
     public bool inflateForever;
@@ -44,9 +43,35 @@ public class InflateObject : MonoBehaviour
     public bool canPushLeft;
     public bool heroMessage;
     public bool glueMessage;
+    public SpriteRenderer symbol;
+    private bool hasSymbol;
+    private float symbolScale;
 
     void Start()
     {
+        if (symbol == null)
+        {
+            hasSymbol = false;
+        }
+        else
+        {
+            symbolScale = symbol.transform.lossyScale.x;
+            hasSymbol = true;
+            if (breakable)
+                symbol.sprite = SpriteManager.Instance.breakable;
+            else if (glue)
+                symbol.sprite = SpriteManager.Instance.glue;
+            else if (positionFixed)
+                symbol.sprite = SpriteManager.Instance.positionFixed;
+            else if (!pushable)
+                symbol.sprite = SpriteManager.Instance.banPush;
+            else
+            {
+                Destroy(symbol.gameObject);
+                hasSymbol = false;
+            }
+        }
+        ManageSymbol();
         if (!positionFixed)
             rigidBody = GetComponent<Rigidbody2D>();
         if (!pushable)
@@ -58,6 +83,8 @@ public class InflateObject : MonoBehaviour
         foreach (HitBox hitbox in hitBoxes)
         {
             hitbox.Inflate();
+            hitbox.ManageColor(colorNumber, inflateDirection, inflating);
+            hitbox.InitializeColor(colorNumber);
         }
     }
 
@@ -81,6 +108,7 @@ public class InflateObject : MonoBehaviour
             if (inflating)
             {
                 Inflate();
+                ManageSymbol();
             }
             CheckDestroy();
         }
@@ -112,6 +140,14 @@ public class InflateObject : MonoBehaviour
         else if (rigidBody.velocity.y + maxFallingSpeed > 0)
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, -maxFallingSpeed);
+        }
+    }
+
+    private void ManageSymbol()
+    {
+        if (hasSymbol)
+        {
+            symbol.transform.localScale = new Vector3(symbolScale / transform.localScale.x, symbolScale / transform.localScale.y, 1);
         }
     }
 
@@ -198,7 +234,7 @@ public class InflateObject : MonoBehaviour
         downTouchPosition = 1024;
         foreach (HitBox hitbox in hitBoxes)
         {
-            hitbox.ManageColor(inflatingColor,edgeColor,inflateEdgeColor,inflateDirection,inflating);
+            hitbox.ManageColor(colorNumber,inflateDirection,inflating);
             hitbox.CheckPressure();
             if (hitbox.hit)
             {

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615acd43bd1137647a074fdd52b8f05a, type: 3}
+  m_Name: Sprite Manager
+  m_EditorClassIdentifier: 
+  positionFixed: {fileID: 21300000, guid: 3c659b09689777f4e89af9e47b5884d1, type: 3}
+  banPush: {fileID: 21300000, guid: 96f02d1b42103cc4487f62f42f30e4e5, type: 3}
+  breakable: {fileID: 21300000, guid: b6444f3a3b2c71544b9c31ec444e7ab0, type: 3}
+  glue: {fileID: 21300000, guid: a31394691f688af4683803e5d92ed9dd, type: 3}
