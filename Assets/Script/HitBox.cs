@@ -31,14 +31,14 @@ public class HitBox : MonoBehaviour
     public float edgePosition;
     private float pressureDepth;
     private int targetLayerMask;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer symbol;
+    public SpriteRenderer edge;
     private Collider2D hitCollider;
     private Collider2D[] hitColliders;
     private InflateObject colliderComponent;
 
     void Start()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (direction == Direction.Left)
         {
             lenth = transform.localScale.y;
@@ -82,18 +82,27 @@ public class HitBox : MonoBehaviour
         }
     }
 
-    public void ManageColor(Color inflateColor, Color edgeColor, Color inflateEdgeColor, InflateDirection inflateDirection, bool inflating)
+    public void InitializeColor(int colorNumber)
     {
-        if (((inflateDirection == InflateDirection.X || inflateDirection == InflateDirection.XY) && (direction == Direction.Left || direction == Direction.Right)) || ((inflateDirection == InflateDirection.Y || inflateDirection == InflateDirection.XY) && (direction == Direction.Up || direction == Direction.Down)))
+        edge.color = ColorManager.Instance.colorGroups[colorNumber].edgeColor;
+        GetComponentInParent<SpriteRenderer>().color = ColorManager.Instance.colorGroups[colorNumber].mainColor;
+    }
+
+    public void ManageColor(int colorNumber, InflateDirection inflateDirection, bool inflating)
+    {
+        if (symbol != null)
         {
-            if (inflating)
-                spriteRenderer.color = inflateColor;
+            if (((inflateDirection == InflateDirection.X || inflateDirection == InflateDirection.XY) && (direction == Direction.Left || direction == Direction.Right)) || ((inflateDirection == InflateDirection.Y || inflateDirection == InflateDirection.XY) && (direction == Direction.Up || direction == Direction.Down)))
+            {
+                if (inflating)
+                    symbol.color = ColorManager.Instance.colorGroups[colorNumber].lightColor;
+                else
+                    symbol.color = ColorManager.Instance.colorGroups[colorNumber].inflatetEdgeColor;
+            }
             else
-                spriteRenderer.color = inflateEdgeColor;
-        }
-        else
-        {
-            spriteRenderer.color = edgeColor;
+            {
+                Destroy(symbol.gameObject);
+            }
         }
     }
 
