@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
 
-public enum InflateDirection { X, Y, XY }
+public enum InflateDirection {X, Y, XY, O}
 
 public class InflateObject : MonoBehaviour
 {
@@ -11,6 +11,9 @@ public class InflateObject : MonoBehaviour
     public List<HitBox> hitBoxes;
     public float inflateSpeed;
     public InflateDirection inflateDirection;
+    public Color edgeColor;
+    public Color inflateEdgeColor;
+    public Color inflatingColor;
     public bool positionFixed;
     public bool breakable;
     public bool pushable;
@@ -66,7 +69,7 @@ public class InflateObject : MonoBehaviour
                 Fall();
             else if (hasFixedPosition)
                 transform.position = fixedPosition.position;
-            if(inflateSpeed > 0 || breakable)
+            if(inflateDirection != InflateDirection.O || breakable)
                 CheckPressure();
             CheckPush();
             if(pressureTime > 0.2f && breakable)
@@ -79,6 +82,7 @@ public class InflateObject : MonoBehaviour
             {
                 Inflate();
             }
+            CheckDestroy();
         }
         else if (!paused && GameManager.paused)
         {
@@ -136,7 +140,7 @@ public class InflateObject : MonoBehaviour
 
     private void Inflate()
     {
-        if (!cannotInflate)
+        if (inflateDirection != InflateDirection.O && !cannotInflate)
         {
             if (inflateDirection == InflateDirection.X)
                 transform.localScale = new Vector3(transform.localScale.x + inflateSpeed * Time.fixedDeltaTime, transform.localScale.y, transform.localScale.z);
@@ -194,6 +198,7 @@ public class InflateObject : MonoBehaviour
         downTouchPosition = 1024;
         foreach (HitBox hitbox in hitBoxes)
         {
+            hitbox.ManageColor(inflatingColor,edgeColor,inflateEdgeColor,inflateDirection,inflating);
             hitbox.CheckPressure();
             if (hitbox.hit)
             {
@@ -263,5 +268,11 @@ public class InflateObject : MonoBehaviour
     private void Damage()
     {
         Destroy(gameObject);
+    }
+
+    private void CheckDestroy()
+    {
+        if (transform.position.y < CameraManager.down - 15f)
+            Destroy(gameObject);
     }
 }

@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     private KeyCode left;
     private KeyCode right;
     private KeyCode jump;
+    private KeyCode slow;
     private KeyCode quit;
     private KeyCode restart;
 
@@ -23,6 +24,7 @@ public class InputManager : MonoBehaviour
         left = SaveAndLoad.gameData.left;
         right = SaveAndLoad.gameData.right;
         jump = SaveAndLoad.gameData.jump;
+        slow = SaveAndLoad.gameData.slow;
         quit = SaveAndLoad.gameData.quit;
         restart = SaveAndLoad.gameData.restart;
     }
@@ -52,10 +54,14 @@ public class InputManager : MonoBehaviour
             MyInput.jump = Input.GetKeyDown(jump);
             if (Input.GetKeyDown(quit))
                 GameManager.paused = true;
+            GameManager.slow = Input.GetKey(slow);
             if (Input.GetKeyDown(restart))
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else if (Input.GetKeyDown(quit))
+        {
             GameManager.paused = false;
+            Time.timeScale = 1;
+        }
     }
 }

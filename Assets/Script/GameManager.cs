@@ -7,9 +7,11 @@ public class GameManager : MonoBehaviour
 {
     public Transform hero;
     public Transform flag;
+    public Material grid;
     public float winAreaWidth;
     public float winAreaHeight;
     public static bool paused;
+    public static bool slow;
     public int level;
 
     void Start()
@@ -21,11 +23,25 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(hero == null || flag == null)
+        if (paused)
+        {
+            Time.timeScale = 0;
+        }
+        else if (slow)
+        {
+            Time.timeScale = 0.4f;
+            grid.color = new Color32(200,200,200,100);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            grid.color = new Color32(200, 200, 200, 0);
+        }
+        if (hero == null || flag == null)
         {
             Warn();
         }
-        else if (hero.position.x - flag.position.x < winAreaWidth / 2f && hero.position.x - flag.position.x > - winAreaWidth / 2f && hero.position.y - flag.position.y < 0.5f + winAreaWidth / 2f && hero.position.y - flag.position.y > 0.5f - winAreaWidth / 2f)
+        else if (hero.position.x - flag.position.x < winAreaWidth / 2f && hero.position.x - flag.position.x > -winAreaWidth / 2f && hero.position.y - flag.position.y < 0.5f + winAreaWidth / 2f && hero.position.y - flag.position.y > 0.5f - winAreaWidth / 2f)
         {
             Win();
         }

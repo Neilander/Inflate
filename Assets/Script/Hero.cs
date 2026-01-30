@@ -66,6 +66,7 @@ public class Hero : MonoBehaviour
             CheckPressure();
             if (pressureTime > 0.2f)
                 Damage();
+            velocity = rigidBody.velocity;
             if (onLand)
             {
                 HorizontalMove(MyInput.x * speed, landAceleration);
@@ -81,6 +82,8 @@ public class Hero : MonoBehaviour
                 HorizontalMove(MyInput.x * speed, 2 * airAceleration);
                 VerticalMove();
             }
+            rigidBody.velocity = velocity;
+            CheckDestroy();
         }
         else if (!paused && GameManager.paused)
         {
@@ -129,7 +132,6 @@ public class Hero : MonoBehaviour
     private void HorizontalMove(float speed, float acceleration)
     {
         distance = 2f;
-        velocity = rigidBody.velocity;
         if (velocity.x > 0 || (velocity.x == 0 && MyInput.x > 0))
         {
             barrier = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), new Vector2(1, 0), 2f, MyLayerMask.Left);
@@ -222,12 +224,10 @@ public class Hero : MonoBehaviour
                 velocity.x = Mathf.MoveTowards(velocity.x, speed, acceleration * Time.fixedDeltaTime);
             }
         }
-        rigidBody.velocity = velocity;
     }
 
     private void VerticalMove()
     {
-        velocity = rigidBody.velocity;
         if (wolfJumpTime > 0 && jumpPreTypeTime > 0)
         {
             distance = 2f;
@@ -323,7 +323,12 @@ public class Hero : MonoBehaviour
                 }
             }
         }
-        rigidBody.velocity = velocity;
+    }
+
+    private void CheckDestroy()
+    {
+        if (transform.position.y < CameraManager.down - 15f)
+            Destroy(gameObject);
     }
 
     private void Damage()

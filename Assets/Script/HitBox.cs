@@ -23,7 +23,6 @@ public struct MyLayer
 
 public class HitBox : MonoBehaviour
 {
-    public bool weak;
     public bool hit;
     public bool touch;
     public bool canPush;
@@ -32,12 +31,14 @@ public class HitBox : MonoBehaviour
     public float edgePosition;
     private float pressureDepth;
     private int targetLayerMask;
+    private SpriteRenderer spriteRenderer;
     private Collider2D hitCollider;
     private Collider2D[] hitColliders;
     private InflateObject colliderComponent;
 
     void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (direction == Direction.Left)
         {
             lenth = transform.localScale.y;
@@ -66,10 +67,7 @@ public class HitBox : MonoBehaviour
             targetLayerMask = MyLayerMask.Up;
             edgePosition = transform.position.y - transform.parent.parent.position.y;
         }
-        if (weak)
-            pressureDepth = 0.05f;
-        else
-            pressureDepth = 0.1f;
+        pressureDepth = 0.06f;
     }
 
     public void Inflate()
@@ -81,6 +79,21 @@ public class HitBox : MonoBehaviour
         if (direction == Direction.Up || direction == Direction.Down)
         {
             transform.localScale = new Vector3(lenth - 0.1f / transform.parent.lossyScale.x, 0.4f / transform.parent.lossyScale.y, 1);
+        }
+    }
+
+    public void ManageColor(Color inflateColor, Color edgeColor, Color inflateEdgeColor, InflateDirection inflateDirection, bool inflating)
+    {
+        if (((inflateDirection == InflateDirection.X || inflateDirection == InflateDirection.XY) && (direction == Direction.Left || direction == Direction.Right)) || ((inflateDirection == InflateDirection.Y || inflateDirection == InflateDirection.XY) && (direction == Direction.Up || direction == Direction.Down)))
+        {
+            if (inflating)
+                spriteRenderer.color = inflateColor;
+            else
+                spriteRenderer.color = inflateEdgeColor;
+        }
+        else
+        {
+            spriteRenderer.color = edgeColor;
         }
     }
 

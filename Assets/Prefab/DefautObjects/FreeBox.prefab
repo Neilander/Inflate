@@ -54,6 +54,9 @@ MonoBehaviour:
   - {fileID: 8074655833907905207}
   inflateSpeed: 0
   inflateDirection: 2
+  edgeColor: {r: 0.23216088, g: 0.408805, b: 0, a: 1}
+  inflateEdgeColor: {r: 0.50980395, g: 0.7843138, b: 0.14901961, a: 1}
+  inflatingColor: {r: 0.7677343, g: 0.9496855, b: 0.5285984, a: 1}
   positionFixed: 0
   breakable: 0
   pushable: 0

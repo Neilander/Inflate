@@ -46,11 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27763c35cdea7b349bcb0382ba135484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weak: 0
   hit: 0
   touch: 0
   canPush: 0
   direction: 0
+  lenth: 0
   edgePosition: 0
 --- !u!61 &8689506542978529889
 BoxCollider2D:
@@ -123,8 +123,8 @@ Transform:
   m_GameObject: {fileID: 7418727656610196761}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5933073980292637898}
