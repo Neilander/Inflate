@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: Color Manager
   m_EditorClassIdentifier: 
   colorGroups:
-  - mainColor: {r: 0.9725491, g: 0.27058825, b: 0.5529412, a: 1}
-    edgeColor: {r: 0.854902, g: 0.10980393, b: 0.78823537, a: 1}
-    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
-    lightColor: {r: 0.012032986, g: 1, b: 0, a: 1}
-  - mainColor: {r: 0.08627451, g: 0.87843144, b: 0.9725491, a: 1}
-    edgeColor: {r: 0.050980397, g: 0.58431375, b: 0.7607844, a: 1}
-    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
-    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
-  - mainColor: {r: 0.64705884, g: 0.9490197, b: 0.25882354, a: 1}
-    edgeColor: {r: 0.50980395, g: 0.7843138, b: 0.14901961, a: 1}
-    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
-    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.9433962, g: 0.31594875, b: 0.5553961, a: 1}
+    edgeColor: {r: 0.745283, g: 0.08085619, b: 0.2859968, a: 1}
+    inflatetEdgeColor: {r: 0.8301887, g: 0.512994, b: 0.63893896, a: 1}
+    lightColor: {r: 0.98125446, g: 0.990566, b: 0.87375396, a: 1}
+  - mainColor: {r: 0.9339623, g: 0.4894784, b: 0.21586865, a: 1}
+    edgeColor: {r: 0.6698113, g: 0.2701138, b: 0.034754362, a: 1}
+    inflatetEdgeColor: {r: 0.9433962, g: 0.7149824, b: 0.5918476, a: 1}
+    lightColor: {r: 0.8627451, g: 0.94079053, b: 1, a: 1}
+  - mainColor: {r: 0.5385853, g: 0.735849, b: 0.2880918, a: 1}
+    edgeColor: {r: 0.37615755, g: 0.6226415, b: 0.049928807, a: 1}
+    inflatetEdgeColor: {r: 0.7822168, g: 0.8113208, b: 0.5166429, a: 1}
+    lightColor: {r: 0.8352941, g: 1, b: 0.9267541, a: 1}
   - mainColor: {r: 0.6156863, g: 0.23137257, b: 0.8235295, a: 1}
     edgeColor: {r: 0.4901961, g: 0.08627451, b: 0.7058824, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
     lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
-  - mainColor: {r: 0.7411765, g: 0.7411765, b: 0.7411765, a: 1}
-    edgeColor: {r: 0.8196079, g: 0.8196079, b: 0.8196079, a: 1}
+  - mainColor: {r: 0.28662333, g: 0.30395213, b: 0.5377358, a: 1}
+    edgeColor: {r: 0.16522783, g: 0.19073364, b: 0.4433962, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
     lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
