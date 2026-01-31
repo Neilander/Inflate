@@ -1355,6 +1355,10 @@ PrefabInstance:
       value: GameObjects
       objectReference: {fileID: 0}
     - target: {fileID: 7029475395060594485, guid: 548d3c1e20289d04a934d910d9e9dd6a, type: 3}
+      propertyPath: level
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029475395060594485, guid: 548d3c1e20289d04a934d910d9e9dd6a, type: 3}
       propertyPath: winAreaHeight
       value: 0.02
       objectReference: {fileID: 0}
