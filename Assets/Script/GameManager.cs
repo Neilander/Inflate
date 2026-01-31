@@ -5,9 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public Transform myCamera;
     public Transform hero;
     public Transform flag;
     public Material grid;
+    public SpriteRenderer warn;
+    public List<Sprite> warnSprite;
     public float winAreaWidth;
     public float winAreaHeight;
     public static bool paused;
@@ -16,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        warn.enabled = false;
         Application.targetFrameRate = 60;
         paused = false;
         MyInput.x = 0;
@@ -49,7 +53,12 @@ public class GameManager : MonoBehaviour
 
     private void Warn()
     {
-
+        warn.enabled = true;
+        warn.transform.position = myCamera.position + new Vector3(0, 0, 3f);
+        if (hero == null)
+            warn.sprite = warnSprite[0];
+        else
+            warn.sprite = warnSprite[1];
     }
 
     private void Win()

@@ -24,6 +24,7 @@ public class InflateObject : MonoBehaviour
 
     private bool cannotInflate;
     private bool pressure;
+    private bool symbolLight;
     private float pressureTime;
     private float downForcePosition;
     private float upForcePosition;
@@ -93,7 +94,7 @@ public class InflateObject : MonoBehaviour
         foreach (HitBox hitbox in hitBoxes)
         {
             hitbox.Inflate();
-            hitbox.ManageColor(colorNumber, inflateDirection, inflating);
+            hitbox.ManageColor(colorNumber, inflateDirection, symbolLight);
             hitbox.InitializeColor(colorNumber);
         }
     }
@@ -166,12 +167,13 @@ public class InflateObject : MonoBehaviour
         if (heroMessage)
         {
             inflating = true;
+            symbolLight = true;
             heroMessage = false;
         }
-        else
+        else if (!inflateForever)
         {
-            if (!inflateForever)
-                inflating = false;
+            inflating = false;
+            symbolLight = false;
         }
     }
 
@@ -244,7 +246,7 @@ public class InflateObject : MonoBehaviour
         downTouchPosition = 1024;
         foreach (HitBox hitbox in hitBoxes)
         {
-            hitbox.ManageColor(colorNumber,inflateDirection,inflating);
+            hitbox.ManageColor(colorNumber,inflateDirection,symbolLight);
             hitbox.CheckPressure();
             if (hitbox.hit)
             {
