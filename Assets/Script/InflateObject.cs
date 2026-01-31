@@ -64,7 +64,7 @@ public class InflateObject : MonoBehaviour
         }
         else
         {
-            symbolScale = symbol.transform.lossyScale.x;
+            symbolScale = Mathf.Min(symbol.transform.lossyScale.x, symbol.transform.lossyScale.y);
             hasSymbol = true;
             if (breakable)
                 symbol.sprite = SpriteManager.Instance.breakable;
