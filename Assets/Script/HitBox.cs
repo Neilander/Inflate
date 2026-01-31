@@ -75,10 +75,18 @@ public class HitBox : MonoBehaviour
         if (direction == Direction.Left || direction == Direction.Right)
         {
             transform.localScale = new Vector3(0.4f / transform.parent.lossyScale.x,lenth - 0.1f / transform.parent.lossyScale.y, 1);
+            if (symbol != null)
+            { 
+                symbol.transform.localScale = new Vector3(0.4f / transform.lossyScale.y, 0.15f / transform.lossyScale.x, 1);
+            }
         }
         if (direction == Direction.Up || direction == Direction.Down)
         {
             transform.localScale = new Vector3(lenth - 0.1f / transform.parent.lossyScale.x, 0.4f / transform.parent.lossyScale.y, 1);
+            if (symbol != null)
+            {
+                symbol.transform.localScale = new Vector3(0.4f / transform.lossyScale.x, 0.15f / transform.lossyScale.y, 1);
+            }
         }
     }
 
