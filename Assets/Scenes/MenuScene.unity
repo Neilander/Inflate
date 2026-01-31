@@ -659,13 +659,13 @@ Transform:
   m_GameObject: {fileID: 346655128}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -4.5, z: 2}
+  m_LocalPosition: {x: 4, y: -4.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1119990382}
   - {fileID: 1519940335}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1912827278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &393292241
 GameObject:
@@ -1630,8 +1630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5300ebdc465bc4144af8f0121c130761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNames:
-  - TestScene
   myCamera: {fileID: 13837652}
   startGame: {fileID: 486781105}
   startGameSpriteRenderer: {fileID: 486781104}
@@ -2967,6 +2965,7 @@ Transform:
   - {fileID: 711677630}
   - {fileID: 877321797}
   - {fileID: 690996782}
+  - {fileID: 346655129}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2130137527
@@ -3063,4 +3062,3 @@ SceneRoots:
   - {fileID: 800798243}
   - {fileID: 855697913}
   - {fileID: 1912827278}
-  - {fileID: 346655129}
