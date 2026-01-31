@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Color Manager
   m_EditorClassIdentifier: 
   colorGroups:
-  - mainColor: {r: 0.9725491, g: 0.27058825, b: 0.5529412, a: 1}
+  - mainColor: {r: 0.8113208, g: 0.21813813, b: 0.45673698, a: 1}
     edgeColor: {r: 0.854902, g: 0.10980393, b: 0.78823537, a: 1}
-    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
-    lightColor: {r: 0.012032986, g: 1, b: 0, a: 1}
+    inflatetEdgeColor: {r: 0.8301887, g: 0.512994, b: 0.63893896, a: 1}
+    lightColor: {r: 0.98125446, g: 0.990566, b: 0.87375396, a: 1}
   - mainColor: {r: 0.08627451, g: 0.87843144, b: 0.9725491, a: 1}
     edgeColor: {r: 0.050980397, g: 0.58431375, b: 0.7607844, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
     lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
-  - mainColor: {r: 0.64705884, g: 0.9490197, b: 0.25882354, a: 1}
-    edgeColor: {r: 0.50980395, g: 0.7843138, b: 0.14901961, a: 1}
-    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
-    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.42514852, g: 0.6698113, b: 0.11058204, a: 1}
+    edgeColor: {r: 0.3380613, g: 0.4716981, b: 0.16242434, a: 1}
+    inflatetEdgeColor: {r: 0.78154033, g: 0.8207547, b: 0.39101994, a: 1}
+    lightColor: {r: 0.8352941, g: 1, b: 0.9267541, a: 1}
   - mainColor: {r: 0.6156863, g: 0.23137257, b: 0.8235295, a: 1}
     edgeColor: {r: 0.4901961, g: 0.08627451, b: 0.7058824, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
