@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1826339654333403420, guid: 846e804974347e24cb6dd120d0dde4c5, type: 3}
+      propertyPath: colorNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826339654333403420, guid: 846e804974347e24cb6dd120d0dde4c5, type: 3}
       propertyPath: inflateSpeed
       value: 1
       objectReference: {fileID: 0}
@@ -203,6 +207,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 232154649356122981, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 672851930658893512, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_Color.b
       value: 0.19607845
@@ -262,6 +270,14 @@ PrefabInstance:
     - target: {fileID: 5603375687563042848, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: colorNumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: inflateDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7647678562555793857, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -510,6 +526,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: colorNumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: inflateDirection
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -680,6 +704,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 149944655537970806, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 149944655537970806, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.58
+      objectReference: {fileID: 0}
     - target: {fileID: 4900985768872361198, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
       propertyPath: m_Name
       value: PositionFixedInflateObject
@@ -725,8 +757,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7269039645696006069, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
+      propertyPath: colorNumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7269039645696006069, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
       propertyPath: inflateSpeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7269039645696006069, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
+      propertyPath: inflateDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7269039645696006069, guid: efe5067ca2796ed468b4471857d2a5f9, type: 3}
       propertyPath: hitBoxes.Array.size
@@ -799,11 +839,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2387341559813316378, guid: 42b50313a18aaf44facc4335e683bcf8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2387341559813316378, guid: 42b50313a18aaf44facc4335e683bcf8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.52
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2387341559813316378, guid: 42b50313a18aaf44facc4335e683bcf8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -998,6 +1038,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: colorNumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: inflateDirection
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1110,6 +1158,10 @@ PrefabInstance:
     - target: {fileID: 6781479630841721277, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_Color.r
       value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
+      propertyPath: colorNumber
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7491584391031416185, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_Color.b
@@ -1325,7 +1377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591882076653832150, guid: 7bdf41c1971aa7341bf6ae768595b0c3, type: 3}
       propertyPath: inflateSpeed
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4591882076653832150, guid: 7bdf41c1971aa7341bf6ae768595b0c3, type: 3}
       propertyPath: positionFixed
@@ -1333,7 +1385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4591882076653832150, guid: 7bdf41c1971aa7341bf6ae768595b0c3, type: 3}
       propertyPath: inflateDirection
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4591882076653832150, guid: 7bdf41c1971aa7341bf6ae768595b0c3, type: 3}
       propertyPath: hitBoxes.Array.size
@@ -1426,8 +1478,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1245357629133065919, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: glue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1245357629133065919, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
       propertyPath: pushable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1245357629133065919, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: colorNumber
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1245357629133065919, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
       propertyPath: inflateForever
@@ -1496,6 +1556,10 @@ PrefabInstance:
     - target: {fileID: 4156920379168107704, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5702687878403122428, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7849851564902042013, guid: 19afd441ccc3d2c4f84836c086e03c03, type: 3}
       propertyPath: m_Name

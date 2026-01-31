@@ -33,3 +33,7 @@ MonoBehaviour:
     edgeColor: {r: 0.16522783, g: 0.19073364, b: 0.4433962, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
     lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
+  - mainColor: {r: 0.5, g: 0.49587166, b: 0.4174528, a: 1}
+    edgeColor: {r: 0.3773585, g: 0.37174466, b: 0.30437878, a: 1}
+    inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
