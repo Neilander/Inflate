@@ -102,16 +102,23 @@ public class Hero : MonoBehaviour
         eyes.localPosition = new Vector3(velocity.x * 0.01f, velocity.y * 0.01f, 0);
     }
 
+    private bool wasOnLand;     // 上一帧是否在地面
+    public bool justLanded;    // 这一帧是否“刚落地”
     private void CheckOnLand()
     {
+        wasOnLand = onLand;
         land = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(0.8f, 0.02f), 0, MyLayerMask.Up);
         onLand = land != null;
+        justLanded = !wasOnLand && onLand;
         if (onLand)
         {
             wolfJumpTime = 0.15f;
             landConponent = land.transform.parent.parent.GetComponent<InflateObject>();
             if (landConponent != null)
                 landConponent.heroMessage = true;
+            
+            if(justLanded)
+                AudioManager.PlaySFX("land");
         }
     }
 

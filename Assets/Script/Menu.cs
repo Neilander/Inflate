@@ -37,7 +37,12 @@ public class Menu : MonoBehaviour
             startGame.localScale = new Vector3(1, 1, 1);
             startGameSpriteRenderer.color = Selected;
             if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                AudioManager.PlaySFX("Click");
                 StartGame();
+            }
+
+            
         }
         else
         {
@@ -50,7 +55,12 @@ public class Menu : MonoBehaviour
             selectLevel.localScale = new Vector3(1, 1, 1);
             selectLevelSpriteRenderer.color = Selected;
             if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                AudioManager.PlaySFX("Click");
                 SelectLevel();
+            }
+
+            
         }
         else
         {

@@ -51,15 +51,26 @@ public class InputManager : MonoBehaviour
                 else
                     MyInput.x = 0;
             }
-            MyInput.jump = Input.GetKeyDown(jump);
+            MyInput.jump = Input.GetKeyDown(jump) || Input.GetKeyDown(KeyCode.Space);
             if (Input.GetKeyDown(quit))
+            {
+                //AudioManager.PlaySFX("Click");
                 GameManager.paused = true;
+            }
+
+            
             GameManager.slow = Input.GetKey(slow);
             if (Input.GetKeyDown(restart))
+            {
+                AudioManager.PlaySFX("Click");
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+
+            
         }
         else if (Input.GetKeyDown(quit))
         {
+            GameManager.paused = true;
             GameManager.paused = false;
             Time.timeScale = 1;
         }

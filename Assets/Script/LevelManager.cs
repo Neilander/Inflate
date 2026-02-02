@@ -60,6 +60,7 @@ public class LevelManager : MonoBehaviour
             quit.color = Selected;
             if (click)
             {
+                AudioManager.PlaySFX("Click");
                 SceneManager.LoadScene("MenuScene");
                 return;
             }
@@ -77,6 +78,7 @@ public class LevelManager : MonoBehaviour
                 buttonSpriteRenderers[n].color = Selected;
                 if (click)
                 {
+                    AudioManager.PlaySFX("Click");
                     SceneManager.LoadScene(sceneNames[n]);
                     return;
                 }

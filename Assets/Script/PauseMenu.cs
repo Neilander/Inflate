@@ -29,7 +29,12 @@ public class PauseMenu : MonoBehaviour
                 continueGame.localScale = new Vector3(1, 1, 1);
                 continueGameSpriteRenderer.color = Selected;
                 if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
                     ContinueGame();
+                    AudioManager.PlaySFX("Click");
+                }
+
+                
             }
             else
             {
@@ -42,7 +47,12 @@ public class PauseMenu : MonoBehaviour
                 restartGame.localScale = new Vector3(1, 1, 1);
                 restartGameSpriteRenderer.color = Selected;
                 if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    AudioManager.PlaySFX("Click");
                     RestartGame();
+                }
+
+                
             }
             else
             {
@@ -55,7 +65,12 @@ public class PauseMenu : MonoBehaviour
                 quit.localScale = new Vector3(1, 1, 1);
                 quitSpriteRenderer.color = Selected;
                 if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    AudioManager.PlaySFX("Click");
                     Quit();
+                }
+
+               
             }
             else
             {

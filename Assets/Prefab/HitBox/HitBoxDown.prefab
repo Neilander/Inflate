@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5933073980292637898}
   - component: {fileID: 8236629732216542017}
   - component: {fileID: 8689506542978529889}
+  - component: {fileID: 7188417635890036242}
   m_Layer: 10
   m_Name: HitBoxDown
   m_TagString: Untagged
@@ -100,6 +101,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7188417635890036242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43909861283778023}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbb8e9bceb9a4227a3b3f305ccba1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2112964474603578802
 GameObject:
   m_ObjectHideFlags: 0

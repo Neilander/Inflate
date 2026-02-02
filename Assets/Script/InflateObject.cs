@@ -177,7 +177,7 @@ public class InflateObject : MonoBehaviour
             paused = false;
         }
     }
-
+    
     private void Fall()
     {
         if (rigidBody.velocity.y + maxFallingSpeed > gravity * Time.fixedDeltaTime)
