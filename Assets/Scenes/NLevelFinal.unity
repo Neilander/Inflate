@@ -416,7 +416,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4797177176178217501, guid: 548d3c1e20289d04a934d910d9e9dd6a, type: 3}
       propertyPath: orthographic size
-      value: 7
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5933263339958878060, guid: 548d3c1e20289d04a934d910d9e9dd6a, type: 3}
+      propertyPath: offset.y
+      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
