@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4985412382344681981, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_Name
-      value: breakable (1) Variant
+      value: NewBreakable
       objectReference: {fileID: 0}
     - target: {fileID: 5603375687563042848, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: colorNumber
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7335417911087837862, guid: 6226669e517e68c4ea67a7f1615686b2, type: 3}
       propertyPath: inflateDirection

@@ -276,7 +276,8 @@ public class InflateObject : MonoBehaviour
                     hitBox.CheckPush();
                     if (!hitBox.canPush)
                     {
-                        rigidBody.velocity = new Vector2(0,rigidBody.velocity.y);
+                        if(rigidBody!=null)
+                            rigidBody.velocity = new Vector2(0,rigidBody.velocity.y);
                         canPushLeft = false;
                     }
                 }
