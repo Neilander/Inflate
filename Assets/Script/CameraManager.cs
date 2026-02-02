@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         width = (float)Screen.width / (float)Screen.height;
+        
     }
 
     void LateUpdate()
@@ -59,10 +60,18 @@ public class CameraManager : MonoBehaviour
             else if (position.y - target.y < -1f)
                 position.y = target.y - 1f;
 
-            if (position.y - up > -5f)
-                position.y = up - 5f;
-            else if (position.y - down < 5f)
-                position.y = down + 5f;
+            float halfHeight = Camera.main.orthographicSize;
+
+// 顶边不能超过 up
+            if (position.y + halfHeight > up)
+            {
+                position.y = up - halfHeight;
+            }
+// 底边不能低于 down
+            else if (position.y - halfHeight < down)
+            {
+                position.y = down + halfHeight;
+            }
         }
 
         transform.position = position;
