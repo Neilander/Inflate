@@ -15,13 +15,16 @@ public class LevelManager : MonoBehaviour
         "NLevel2",
         "NLevel3",
         "NLevel4",
+        "NLevelTrapdoor",
         "FullOfNail",
-        "NLevel6",
-        "NLevel5",
+        "NLevelLearnNail",
         "LearnToLeverage",
         "StopRoom",
         "BreakDoor",
-        "BreakDoor_plus"
+        "BreakDoor_plus",
+        "NLevel6",
+        "NLevel5",
+        "NLevelFinal"
     };
 
     public List<SpriteRenderer> buttonSpriteRenderers;

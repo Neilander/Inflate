@@ -53,4 +53,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NLevel6.unity
     guid: c1063f497d17e469eaa8ca1109075bd9
+  - enabled: 1
+    path: Assets/Scenes/NLevelFinal.unity
+    guid: db28e57f6e0cd4eabb3ae8d5a2d2a64d
+  - enabled: 1
+    path: Assets/Scenes/NLevelLearnNail.unity
+    guid: 6db892db32ccf4ace8a45a46a207825a
+  - enabled: 1
+    path: Assets/Scenes/NLevelTrapdoor.unity
+    guid: f5aa6f63702f7400a84e524ff1ad90a0
   m_configObjects: {}
