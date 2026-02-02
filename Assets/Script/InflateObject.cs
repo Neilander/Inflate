@@ -17,6 +17,7 @@ public class InflateObject : MonoBehaviour
     public bool breakable;
     public bool pushable;
     public bool inflateForever;
+    public bool notPushableOverOther;
 
     private Rigidbody2D rigidBody;
     private float gravity = 50f;
@@ -49,6 +50,14 @@ public class InflateObject : MonoBehaviour
     private float symbolScale;
 
     
+    private List<Glue> gluers = new List<Glue>();
+
+
+
+    private bool everInflate = false;
+    private Coroutine waitUnglueRoutine;
+    private int unglueWaitFrames = 3;
+    
     public void Refresh()
     {
         hitBoxes.RemoveAll(h => h == null);
@@ -57,6 +66,24 @@ public class InflateObject : MonoBehaviour
             if (t.name.Contains("HitBox") && t.TryGetComponent(out HitBox hb) && !hitBoxes.Contains(hb))
                 hitBoxes.Add(hb);
     }
+
+    public void RegisterGluer(Glue glue)
+    {
+        if (!gluers.Contains(glue))
+            gluers.Add(glue);
+
+        glueMessage = true;
+    }
+
+    public void UnregisterGluer(Glue glue)
+    {
+        if (gluers.Contains(glue))
+            gluers.Remove(glue);
+
+        if (gluers.Count == 0)
+            glueMessage = false;
+    }
+
     void Start()
     {
         if (symbol == null)
@@ -67,18 +94,27 @@ public class InflateObject : MonoBehaviour
         {
             symbolScale = Mathf.Min(symbol.transform.lossyScale.x, symbol.transform.lossyScale.y);
             hasSymbol = true;
-            if (breakable)
-                symbol.sprite = SpriteManager.Instance.breakable;
-            else if (glue)
-                symbol.sprite = SpriteManager.Instance.glue;
-            else if (positionFixed)
-                symbol.sprite = SpriteManager.Instance.positionFixed;
-            else if (!pushable)
-                symbol.sprite = SpriteManager.Instance.banPush;
+
+            if (notPushableOverOther)
+            {
+                if (!pushable)
+                    symbol.sprite = SpriteManager.Instance.banPush;
+            }
             else
             {
-                Destroy(symbol.gameObject);
-                hasSymbol = false;
+                if (breakable)
+                    symbol.sprite = SpriteManager.Instance.breakable;
+                else if (glue)
+                    symbol.sprite = SpriteManager.Instance.glue;
+                else if (positionFixed)
+                    symbol.sprite = SpriteManager.Instance.positionFixed;
+                else if (!pushable)
+                    symbol.sprite = SpriteManager.Instance.banPush;
+                else
+                {
+                    Destroy(symbol.gameObject);
+                    hasSymbol = false;
+                }
             }
         }
         ManageSymbol();
@@ -169,6 +205,7 @@ public class InflateObject : MonoBehaviour
             inflating = true;
             symbolLight = true;
             heroMessage = false;
+            everInflate = true;
         }
         else if (!inflateForever)
         {
@@ -179,12 +216,35 @@ public class InflateObject : MonoBehaviour
 
     private void ManageGlueMessage()
     {
+        
+        
         if (glueMessage)
         {
             inflating = false;
+
+            if (inflateForever && everInflate)
+            {
+                if (waitUnglueRoutine != null) StopCoroutine(waitUnglueRoutine);
+                waitUnglueRoutine = StartCoroutine(WaitUnglue());
+            }
+
             glueMessage = false;
         }
+        
     }
+    
+    //只给forever inflate用
+    IEnumerator WaitUnglue()
+    {
+        for (int i = 0; i < unglueWaitFrames; i++)
+            yield return null;
+
+        // 如果这段时间内又收到 glueMessage，会被 ManageGlueMessage 重置协程
+        // 走到这里说明“连续N帧没被重置”
+        inflating = true;
+        waitUnglueRoutine = null;
+    }
+
 
     private void Inflate()
     {
