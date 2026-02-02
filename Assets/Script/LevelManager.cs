@@ -10,7 +10,18 @@ public class LevelManager : MonoBehaviour
 {
     public static List<string> sceneNames = new List<string>()
     {
-
+        "Level0",
+        "NLevel1",
+        "NLevel2",
+        "NLevel3",
+        "NLevel4",
+        "FullOfNail",
+        "NLevel6",
+        "NLevel5",
+        "LearnToLeverage",
+        "StopRoom",
+        "BreakDoor",
+        "BreakDoor_plus"
     };
 
     public List<SpriteRenderer> buttonSpriteRenderers;
@@ -58,7 +69,7 @@ public class LevelManager : MonoBehaviour
             quit.transform.localScale = new Vector3(0.9f, 0.9f, 1);
             quit.color = notSelected;
         }
-        for (int n = 0; n <= SaveAndLoad.gameData.level; n++)
+        for (int n = 0; n < Mathf.Min(SaveAndLoad.gameData.level+1,buttonSpriteRenderers.Count); n++)
         {
             if (Touch(mousePosition, buttonSpriteRenderers[n].transform))
             {

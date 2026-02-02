@@ -55,11 +55,11 @@ MonoBehaviour:
   - {fileID: 1346144689987791944}
   - {fileID: 7272583952020783029}
   inflateSpeed: 0
-  inflateDirection: 2
+  inflateDirection: 3
   positionFixed: 0
-  glue: 0
+  glue: 1
   breakable: 0
-  pushable: 0
+  pushable: 1
   inflateForever: 0
   fixedPosition: {fileID: 0}
   canPushRight: 0

@@ -917,6 +917,14 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2112377764430540740, guid: 0763ba31a71577746bcb6dbe754c8a81, type: 3}
+      propertyPath: glue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112377764430540740, guid: 0763ba31a71577746bcb6dbe754c8a81, type: 3}
+      propertyPath: pushable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112377764430540740, guid: 0763ba31a71577746bcb6dbe754c8a81, type: 3}
       propertyPath: edgeColor.b
       value: 0.7058824
       objectReference: {fileID: 0}

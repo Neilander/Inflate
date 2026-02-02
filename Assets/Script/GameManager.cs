@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
 
     private void Warn()
     {
+        Debug.Log("Hero为null？"+(hero == null));
+        Debug.Log("flag为null?"+(flag == null));
         warn.enabled = true;
         warn.transform.position = myCamera.position + new Vector3(0, 0, 3f);
         if (hero == null)
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         SaveAndLoad.gameData.nowLevel = level + 1;
-        SaveAndLoad.gameData.level = Mathf.Max(SaveAndLoad.gameData.level, level);
+        SaveAndLoad.gameData.level = Mathf.Max(SaveAndLoad.gameData.level, level+1);
         SaveAndLoad.Save(0);
         if (LevelManager.sceneNames.Count >= level + 2)
             SceneManager.LoadScene(LevelManager.sceneNames[level + 1]);
