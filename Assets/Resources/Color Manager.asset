@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Color Manager
   m_EditorClassIdentifier: 
   colorGroups:
-  - mainColor: {r: 0.74509805, g: 0.34901962, b: 0.49803922, a: 1}
+  - mainColor: {r: 0.84276724, g: 0.32597592, b: 0.5193079, a: 1}
     edgeColor: {r: 0.6886792, g: 0.1786668, b: 0.3251409, a: 1}
     inflatetEdgeColor: {r: 0.8301887, g: 0.512994, b: 0.63893896, a: 1}
     lightColor: {r: 0.98125446, g: 0.990566, b: 0.87375396, a: 1}
@@ -37,7 +37,7 @@ MonoBehaviour:
     edgeColor: {r: 0.3773585, g: 0.37174466, b: 0.30437878, a: 1}
     inflatetEdgeColor: {r: 1, g: 1, b: 1, a: 1}
     lightColor: {r: 0.011764707, g: 1, b: 0, a: 1}
-  - mainColor: {r: 0.8773585, g: 0.69113576, b: 0.26900145, a: 1}
+  - mainColor: {r: 0.9811321, g: 0.75439245, b: 0.12649809, a: 1}
     edgeColor: {r: 0.745283, g: 0.48362547, b: 0.13710396, a: 1}
     inflatetEdgeColor: {r: 0.7924528, g: 0.77039593, b: 0.60929155, a: 1}
     lightColor: {r: 0.9926317, g: 1, b: 0.2028302, a: 1}
